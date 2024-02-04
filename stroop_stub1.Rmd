@@ -1,0 +1,89 @@
+---
+title: "Intro to Stroop data"
+author: "sp" # edit this to your GUID
+date: "2024-01-31" # edit this to today's date
+output: html_document
+---
+
+You can write notes about anything up to Activity 4 in this space
+
+
+Activity 4
+
+```{r chunk1}
+# this is a comment. A comment is text that is added to a code chunk to help you remember what the code is doing and why. A comment starts with a hashtag # and R will ignore any comments when you run the code in that chunk. They're a useful way to add notes to yourself about your coding, we'll provide some comments for you but add your own!
+
+# In this code chunk, underneath these comments, write the code to load the package beepr and then run the code. Be careful to ensure the code is within the code chunk and that you don't actually delete the backticks that end the code chunk
+
+```
+
+
+```{r chunk2}
+# in this code chunk, write the code to use cowsay
+
+
+```
+
+
+```{r chunk3}
+# in this code chunk, write the code to load the tidyverse 
+#install.packages("tidyverse")
+library(tidyverse)
+```
+
+
+```{r chunk4}
+# in this code chunk, write the code to load the data files
+dat <- read_csv(file = "stroop_data/experiment_data.csv")
+ppt_info <- read_csv(file = "stroop_data/participant_data.csv")
+
+```
+
+
+```{r chunk5}
+# in this code chunk, write the code to check your data
+summary(dat)
+str(dat)
+
+summary(ppt_info)
+str(ppt_info)
+
+mean(dat$reaction_time)
+median(dat$reaction_time)
+min(dat$reaction_time)
+max(dat$reaction_time)
+```
+
+
+```{r chunk6}
+# in this code chunk, copy the code to make the bar chart
+ggplot(ppt_info,                                 # data we're using
+       aes(x = gender,                           # variable we want to show as bars
+                       fill = gender)) +         # make bars different colours
+  geom_bar(show.legend = F) +                   # add bar plot & turn off redundant legend
+  scale_x_discrete(name = "Gender") +                 # edit x-axis label
+  scale_fill_viridis_d(option = "D") +                  # colour-blind friendly
+  scale_y_continuous(name = "Number of participants") +     # edit y-axis label
+  theme_minimal()                                           # add a theme
+```
+
+
+```{r chunk7}
+# in this code chunk, copy the code to make the violin box-plots
+# make plot
+ggplot(dat,                                     # data we're using
+       aes(x = condition,                                       # grouping variable (IV)
+           y = reaction_time,                # measurement (DV)
+           fill = condition)) +                  # make bars different colours
+  geom_violin(show.legend = FALSE,             # turn off redundant legend for colour
+              alpha = .2) +                     # make violin a bit transparent
+  geom_boxplot(width = .2,                    # adjust size of boxplot
+               show.legend = FALSE,               # turn off redundant legend for colour
+               alpha = .5)+                       # make boxplots a little transparent
+  scale_x_discrete(name = "Condition",                             # edit x-axis labels
+                   labels = c("Congruent", "Incongruent")) +
+  scale_y_continuous(name = "Reaction time (ms)") +                      # edit y-axis labels
+  theme_minimal() +                                                     # add a theme
+  scale_fill_viridis_d(option = "E")                                   # colour-blind friendly colours
+```
+

@@ -1,0 +1,87 @@
+---
+title: "Stroop analysis"
+author: "sp" # replace with GUID
+date: "2024-1-31" # replace with today's date
+output: html_document
+---
+
+Remember to use your Markdown to keep notes!
+
+```{r chunk1}
+# write the code that loads the tidyverse and the data in this chunk
+library("tidyverse")
+dat <- read_csv(file = "stroop_data/experiment_data.csv", show_col_types = F)
+ppt_info <- read_csv(file = "stroop_data/participant_data.csv")
+```
+
+
+```{r chunk2}
+# use this code chunk to add all the code for the sample information and use comments of your own to make a note of what each bit of code is doing
+ppt_info %>%
+  count()
+
+#view(dat) # open dat file 
+
+ppt_info %>%
+  count(gender) # generates a tibble 3x2
+
+ppt_info %>%
+  summarise(mean_age = mean(age),
+            sd_age = sd(age),
+            median_age = median(age))
+
+age_stats <- ppt_info %>%
+  group_by(gender) %>%
+  summarise(mean_age = mean(age),
+            sd_age = sd(age),
+            median_age = median(age),
+            group_size = n())
+
+
+
+```
+
+```{r chunk3}
+# use this code chunk to add all the code for the experimental data
+dat %>%
+  count(condition) # 2x2 tibble...
+
+condition_stats <- dat %>%
+  group_by(condition) %>%
+  summarise(mean_rt = mean(reaction_time),
+            sd_rt = sd(reaction_time),
+            condition_n = n())
+
+
+
+```
+
+
+```{r chunk4}
+# boxplot code
+ggplot(dat, aes(x = condition, y = reaction_time)) +
+  geom_boxplot(width = .7)
+
+```
+
+
+```{r chunk5}
+# histogram code
+ggplot(dat, aes(x = reaction_time, fill = condition)) +
+  geom_histogram(color = "black", binwidth = 20) +
+  scale_fill_manual(values = c("deepskyblue", "gold"))
+```
+
+
+```{r chunk6}
+# density plot code
+ggplot(dat, aes(x = reaction_time, fill = condition)) +
+  geom_density(alpha = .4) +
+  scale_fill_manual(values = c("deepskyblue", "gold"))
+```
+
+```{r chunk7}
+# debugging exercises
+
+```
+
